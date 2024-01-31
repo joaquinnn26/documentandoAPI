@@ -1,0 +1,342 @@
+paths:
+  /api/cart:
+    post:
+      summary: Create cart
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Cart created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              example:
+                id: userId
+                products: []
+
+        "500":
+          description: Server error
+
+  /api/cart/{cid}:
+    get:
+      summary: Get cart by id
+      tags:
+        - Carts
+      parameters:
+        - name: id
+          in: path
+          description: Cart identifier
+      responses:
+        "200":
+          description: Cart found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              example:
+                id: userId
+                products:
+                  - product:
+                      status: true
+                      title: "Shampoo"
+                      description: "Shampoo suave para cabello"
+                      price: 10.99
+                      thumbnail: "https://example.com/thumbnail.jpg"
+                      code: "SHAMPOO123"
+                      stock: 100
+                      category: "Cuidado del Cabello"
+                      owner: "pedrito@gmail.com"
+                    quantity: 2
+
+        "500":
+          description: Server error
+
+        "400":
+          description: Cart not found
+    put:
+      summary: Update products cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+      responses:
+        "200":
+          description: Products updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              example:
+                id: userId
+                products:
+                  - product:
+                      status: true
+                      title: "Shampoo"
+                      description: "Shampoo suave para cabello"
+                      price: 10.99
+                      thumbnail: "https://example.com/thumbnail.jpg"
+                      code: "SHAMPOO123"
+                      stock: 100
+                      category: "Cuidado del Cabello"
+                      owner: "pedrito@gmail.com"
+                    quantity: 2
+
+        "500":
+          description: Server error
+
+        "400":
+          description: Some data is missing
+
+    delete:
+      summary: Delete all products from cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+      responses:
+        "200":
+          description: Products deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              example:
+                id: userId
+                products: []
+
+        "500":
+          description: Server error
+
+        "400":
+          description: Some data is missing
+
+  /api/cart/{cid}/products/{pid}:
+    post:
+      summary: Add product to cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+        - name: pid
+          in: path
+          description: Product identifier
+      responses:
+        "200":
+          description: Product add to cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              example:
+                id: userId
+                products:
+                  - product:
+                      status: true
+                      title: "Shampoo"
+                      description: "Shampoo suave para cabello"
+                      price: 10.99
+                      thumbnail: "https://example.com/thumbnail.jpg"
+                      code: "SHAMPOO123"
+                      stock: 100
+                      category: "Cuidado del Cabello"
+                      owner: "pedrito@gmail.com"
+                    quantity: 2
+        "500":
+          description: Server error
+        "404":
+          description: The product creator cannot add it to their own cart
+        "400":
+          description: Some data is missing
+
+    delete:
+      summary: Delete product from cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+        - name: pid
+          in: path
+          description: Product identifier
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              example:
+                id: userId
+                products:
+                  - product:
+                      status: true
+                      title: "Shampoo"
+                      description: "Shampoo suave para cabello"
+                      price: 10.99
+                      thumbnail: "https://example.com/thumbnail.jpg"
+                      code: "SHAMPOO123"
+                      stock: 100
+                      category: "Cuidado del Cabello"
+                      owner: "pedrito@gmail.com"
+                    quantity: 2
+
+        "500":
+          description: Server error
+
+        "400":
+          description: Some data is missing
+
+    put:
+      summary: Update product quantity
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: Cart identifier
+        - name: pid
+          in: path
+          description: Product identifier
+      responses:
+        "200":
+          description: Update product quantity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+              example:
+                id: userId
+                products:
+                  - product:
+                      status: true
+                      title: "Shampoo"
+                      description: "Shampoo suave para cabello"
+                      price: 10.99
+                      thumbnail: "https://example.com/thumbnail.jpg"
+                      code: "SHAMPOO123"
+                      stock: 100
+                      category: "Cuidado del Cabello"
+                      owner: "pedrito@gmail.com"
+                    quantity: 3
+
+        "500":
+          description: Server error
+
+        "400":
+          description: Some data is missing
+
+  /api/cart/{cid}/purchase:
+    get:
+      summary: purchase
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+      responses:
+        "200":
+          description: Purchased
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+              example:
+                code: "fsdf51d11"
+                purchase_datetime: "26/12/03"
+                amount: 1500
+                purchaser: "pedrito@gmail.com"
+
+        "500":
+          description: Server error
+
+        "400":
+          description: Some data is missing
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        status:
+          type: boolean
+          default: true
+        title:
+          type: string
+          description: Título del producto
+          example: "Shampoo"
+        description:
+          type: string
+          description: Descripción del producto
+          example: "Shampoo suave para cabello"
+        price:
+          type: number
+          description: Precio del producto
+          example: 10.99
+        thumbnail:
+          type: string
+          description: URL de la imagen en miniatura del producto
+          example: "https://example.com/thumbnail.jpg"
+        code:
+          type: string
+          description: Código único del producto
+          example: "SHAMPOO123"
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+          example: 100
+        category:
+          type: string
+          description: Categoría del producto
+          example: "Cuidado del Cabello"
+        owner:
+          type: string
+          description: Email del usuario que creo el producto
+          example: "pedrito@gmail.com"
+
+    ProductInCart:
+      type: object
+      properties:
+        product:
+          $ref: "#/components/schemas/Product"
+        quantity:
+          type: Number
+          description: Cantidad del producto en el carrito
+          example: 2
+
+    Cart:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductInCart"
+          default: []
+
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Código único del ticket
+          example: "fsdf51d11"
+        purchase_datetime:
+          type: string
+          description: Fecha y hora de la compra
+          example: "26/12/03"
+        amount:
+          type: number
+          description: Monto total de la compra
+          example: 1500
+        purchaser:
+          type: string
+          description: Correo electrónico del comprador
+          example: "pedrito@gmail.com"

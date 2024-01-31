@@ -1,0 +1,243 @@
+paths: 
+  /api/products:
+    get: 
+      summary: Get products
+      tags:
+        - products
+      responses:
+        "200":
+          description: products
+          content:
+            application/json:
+              schema: 
+                $ref: "#components/schemas/Product" 
+              example:
+                _id: asdasd221
+                status: true
+                title: shampoo
+                description: shampoo para rulos
+                price: 2022
+                thumbnail: imagen.png
+                code: asdfdf21a
+                stock: 10
+                category: limpieza
+                owner: emailUser
+                
+        "500":
+          description: Server error
+    post: 
+      summary: Create product
+      tags:
+        - products
+      requestBody:
+        content: 
+          aplication/json:
+            schemas:
+              $ref: "#components/requestBodies/updateUser"
+            example:
+              title: shampoo
+              description: shampoo para pelo lacio
+              price: 2022222
+              thumbnail: imagen2.png           
+              code: asdfdf21a21
+              stock: 1
+              category: limpieza
+      responses:
+        "200":
+          description: product created
+          content:
+            application/json:
+              schema: 
+                $ref: "#components/schemas/Product" 
+              example:
+                _id: asdasd221
+                status: true
+                title: shampoo1
+                description: shampoo para rulos
+                price: 2022
+                thumbnail: imagen.png
+                code: asdfdf21a
+                stock: 10
+                category: limpieza
+                owner: emailUser
+        "400":
+          description: "Some data is missing"
+        "500":
+          description: Server error
+  /api/products/{pid}:
+    get: 
+      summary: Get product by id
+      tags:
+        - products
+      parameters:
+        - name: pid
+          in: path
+          description: product identifier
+      responses:
+        "200":
+          description: product by id
+          content:
+            application/json:
+              schema: 
+                $ref: "#components/schemas/Product" 
+              example:
+                _id: asdasd221
+                status: true
+                title: shampoo
+                description: shampoo para rulos
+                price: 2022
+                thumbnail: imagen.png
+                code: asdfdf21a
+                stock: 10
+                category: limpieza
+                owner: emailUser
+        "404":
+          description: Product not found
+        "500":
+          description: Server error
+    delete: 
+      summary: Delete product by id
+      tags:
+        - products
+      parameters:
+        - name: pid
+          in: path
+          description: product identifier
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            application/json:
+              schema: 
+                $ref: "#components/schemas/Product" 
+              example:
+                  _id: asdasd221
+                  status: false  # Indicando que el producto ha sido eliminado 
+                  title: shampoo
+                  description: shampoo para rulos
+                  price: 2022
+                  thumbnail: imagen.png
+                  code: asdfdf21a
+                  stock: 10
+                  category: limpieza
+                  owner: emailUser
+        "404":
+          description: Product not found
+        "500":
+          description: Server error
+    put: 
+      summary: Update product
+      tags:
+        - products
+      parameters:
+        - name: pid
+          in: path
+          description: product identifier
+      requestBody:
+        content: 
+          aplication/json:
+            schemas:
+              $ref: "#components/requestBodies/product"
+            example:
+              title: shampoo
+              description: shampoo para pelo lacio
+              price: 2022222
+              thumbnail: imagen2.png           
+              code: asdfdf21a212
+              stock: 1
+              category: limpieza
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schema: 
+                $ref: "#components/schemas/Product" 
+              example:  # Aca se veria el producto con sus modificaciones
+                  _id: 123123asd
+                  status: true  
+                  title: shampoo
+                  description: shampoo para pelo lacio
+                  price: 2022222
+                  thumbnail: imagen2.png           
+                  code: asdfdf21a212
+                  stock: 1
+                  category: limpieza
+                  owner: emailUser
+        "404":
+          description: Product not found
+        "500":
+          description: Server error
+
+components:
+  schemas:
+    Products: 
+      type: object
+      properties:
+        status:
+          type: boolean
+          default: true
+        title:
+          type: string
+          description: Título del producto
+          example: "Shampoo"
+        description:
+          type: string
+          description: Descripción del producto
+          example: "Shampoo suave para cabello"
+        price:
+          type: number
+          description: Precio del producto
+          example: 10.99
+        thumbnail:
+          type: string
+          description: URL de la imagen en miniatura del producto
+          example: "https://example.com/thumbnail.jpg"
+        code:
+          type: string
+          description: Código único del producto
+          example: "SHAMPOO123"
+        stock:
+          type: number
+          description: Cantidad en stock del producto
+          example: 100
+        category:
+          type: string
+          description: Categoría del producto
+          example: "Cuidado del Cabello"
+        owner:
+          type: string
+          description: Email del usuario que creo el producto
+          example: "pedrito@gmail.com"
+  requestBodies: 
+    product:
+      type: object
+      properties:
+              title: 
+                type: string
+                description: title product
+                example: "shampoo"
+              description: 
+                type: string
+                description: description for product
+                example: "shampoo low cost"
+              price: 
+                type: number
+                description: price product
+                example: 122.10
+              thumbnail:
+                type: string
+                description: Url image
+                example: "https://example.com/thumbnail.jpg"
+              code: 
+                type: number
+                description: code 
+                example: 1231asd12
+              stock: 
+                type: number
+                description: stock product
+                example: 12
+              category:
+                type: string
+                description: category product
+                example: "limpieza"
