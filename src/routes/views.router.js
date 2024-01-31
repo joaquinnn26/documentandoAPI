@@ -31,7 +31,7 @@ router.get("/signup", (req, res) => {
 
 
 
-router.get("/home", async (req, res) => {  
+router.get("/home",passport.authenticate('jwt', {session: false}), async (req, res) => {  
   try {
       const products = await manager.findAll(req.query)
       const {payload, info, page, limit, order, query} = products
