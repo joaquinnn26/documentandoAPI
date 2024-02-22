@@ -2,7 +2,8 @@ import { Router } from "express";
 import { manager } from "../DAL/dao/mongo/products.dao.js";
 import { cManager } from "../DAL/dao/mongo/carts.dao.js";
 import { authorize } from "../middlewares/authMiddleware.js";
-
+import passport from "passport"
+import "../passport.js"
 
 const router = Router();
 
